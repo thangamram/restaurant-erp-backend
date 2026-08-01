@@ -28,7 +28,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_CUSTOMER', 'ROLE_WAITER', 'ROLE_ADMIN')")
     public ResponseEntity<ApiResponse<OrderDto.OrderResponse>> placeOrder(
             @AuthenticationPrincipal UserPrincipal currentUser,
             @Valid @RequestBody OrderDto.CreateOrderRequest request,
