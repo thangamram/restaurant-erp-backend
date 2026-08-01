@@ -81,6 +81,7 @@ public class OrderService {
             OrderItem orderItem = OrderItem.builder()
                     .order(order)
                     .menuItem(menuItem)
+                    .itemName(menuItem.getName())
                     .quantity(itemReq.getQuantity())
                     .unitPrice(menuItem.getPrice())
                     .subtotal(itemTotal)
