@@ -15,14 +15,14 @@ public class ApiResponse<T> {
     private boolean success;
     private String message;
     private T data;
-    private LocalDateTime timestamp;
+    private String timestamp;
 
     public static <T> ApiResponse<T> success(T data, String message) {
         return ApiResponse.<T>builder()
                 .success(true)
                 .message(message)
                 .data(data)
-                .timestamp(LocalDateTime.now())
+                .timestamp(LocalDateTime.now().toString())
                 .build();
     }
 
@@ -35,7 +35,7 @@ public class ApiResponse<T> {
                 .success(true)
                 .message(message)
                 .data(null)
-                .timestamp(LocalDateTime.now())
+                .timestamp(LocalDateTime.now().toString())
                 .build();
     }
 
@@ -48,7 +48,7 @@ public class ApiResponse<T> {
                 .success(false)
                 .message(message)
                 .data(null)
-                .timestamp(LocalDateTime.now())
+                .timestamp(LocalDateTime.now().toString())
                 .build();
     }
 }
