@@ -248,10 +248,11 @@ public class OrderService {
 
     private void validateStatusTransition(OrderStatus current, OrderStatus next) {
         boolean valid = switch (current) {
-            case NEW -> next == OrderStatus.RECEIVED || next == OrderStatus.CANCELLED;
+            case NEW -> next == OrderStatus.RECEIVED || next == OrderStatus.PREPARING || next == OrderStatus.CANCELLED;
             case RECEIVED -> next == OrderStatus.PREPARING || next == OrderStatus.CANCELLED;
             case PREPARING -> next == OrderStatus.READY || next == OrderStatus.CANCELLED;
-            case READY -> next == OrderStatus.DELIVERED;
+            case READY -> next == OrderStatus.DELIVERED || next == OrderStatus.SERVED;
+            case SERVED -> next == OrderStatus.DELIVERED || next == OrderStatus.BILLED;
             case DELIVERED -> next == OrderStatus.BILLED;
             case BILLED -> next == OrderStatus.PAID;
             case PAID -> next == OrderStatus.CLOSED;
