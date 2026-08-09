@@ -108,7 +108,7 @@ public class OrderController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_CASHIER')")
     public ResponseEntity<ApiResponse<Void>> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
-        return ResponseEntity.ok(ApiResponse.success("Order deleted successfully", null));
+        return ResponseEntity.ok(ApiResponse.success("Order deleted successfully", (Void) null));
     }
 
     private String getClientIpAddress(HttpServletRequest request) {

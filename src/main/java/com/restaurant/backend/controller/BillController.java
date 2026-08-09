@@ -96,7 +96,7 @@ public class BillController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_CASHIER')")
     public ResponseEntity<ApiResponse<Void>> deleteBill(@PathVariable Long id) {
         billService.deleteBill(id);
-        return ResponseEntity.ok(ApiResponse.success("Bill deleted successfully", null));
+        return ResponseEntity.ok(ApiResponse.success("Bill deleted successfully", (Void) null));
     }
 
     private String getClientIpAddress(HttpServletRequest request) {
