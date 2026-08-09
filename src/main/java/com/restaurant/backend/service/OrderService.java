@@ -246,6 +246,18 @@ public class OrderService {
         return response;
     }
 
+    @Transactional
+    public void deleteOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order", "id", orderId));
+        // Free the table if needed
+        if (order.getTable() != null) {
+            order.setTable(null);
+            orderRepository.save(order);
+        }
+        orderRepository.deleteById(orderId);
+    }
+
     private void validateStatusTransition(OrderStatus current, OrderStatus next) {
         boolean valid = switch (current) {
             case NEW -> next == OrderStatus.RECEIVED || next == OrderStatus.PREPARING || next == OrderStatus.CANCELLED;
