@@ -49,7 +49,7 @@ public class TableController {
     }
 
     @PatchMapping("/{id}/status")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_WAITER', 'ROLE_CASHIER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_WAITER', 'ROLE_CASHIER', 'ROLE_CUSTOMER')")
     public ResponseEntity<ApiResponse<TableDto.TableResponse>> updateTableStatus(
             @PathVariable Long id, @RequestParam TableStatus status) {
         return ResponseEntity.ok(ApiResponse.success("Table status updated", tableService.updateTableStatus(id, status)));
