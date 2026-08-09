@@ -199,6 +199,13 @@ public class BillService {
         return mapToBillResponse(saved);
     }
 
+    @Transactional
+    public void deleteBill(Long billId) {
+        Bill bill = billRepository.findById(billId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bill", "id", billId));
+        billRepository.deleteById(billId);
+    }
+
     private BillDto.BillResponse mapToBillResponse(Bill bill) {
         BillDto.BillResponse res = new BillDto.BillResponse();
         res.setId(bill.getId());

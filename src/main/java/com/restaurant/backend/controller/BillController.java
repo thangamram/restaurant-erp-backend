@@ -92,6 +92,13 @@ public class BillController {
                 billService.markBillAsPaid(id, currentUser.getUsername(), ipAddress)));
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_CASHIER')")
+    public ResponseEntity<ApiResponse<Void>> deleteBill(@PathVariable Long id) {
+        billService.deleteBill(id);
+        return ResponseEntity.ok(ApiResponse.success("Bill deleted successfully", null));
+    }
+
     private String getClientIpAddress(HttpServletRequest request) {
         String xfHeader = request.getHeader("X-Forwarded-For");
         if (xfHeader == null) {
