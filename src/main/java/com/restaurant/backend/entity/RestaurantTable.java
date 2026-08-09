@@ -30,4 +30,7 @@ public class RestaurantTable extends BaseAuditEntity {
 
     @Column(name = "location_section", length = 50)
     private String locationSection;
+
+    @Column(name = "assigned_waiter", length = 50)
+    private String assignedWaiter;
 }

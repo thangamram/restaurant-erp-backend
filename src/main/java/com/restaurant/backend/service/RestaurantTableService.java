@@ -46,6 +46,9 @@ public class RestaurantTableService {
             table.setStatus(request.getStatus());
         }
         table.setLocationSection(request.getLocationSection());
+        if (request.getAssignedWaiter() != null) {
+            table.setAssignedWaiter(request.getAssignedWaiter());
+        }
 
         return mapToResponse(tableRepository.save(table));
     }
@@ -93,6 +96,7 @@ public class RestaurantTableService {
         res.setCapacity(table.getCapacity());
         res.setStatus(table.getStatus());
         res.setLocationSection(table.getLocationSection());
+        res.setAssignedWaiter(table.getAssignedWaiter());
         return res;
     }
 }

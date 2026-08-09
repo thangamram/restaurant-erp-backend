@@ -19,6 +19,7 @@ public class TableDto {
 
         private TableStatus status = TableStatus.AVAILABLE;
         private String locationSection;
+        private String assignedWaiter;
     }
 
     @Data
@@ -28,5 +29,6 @@ public class TableDto {
         private int capacity;
         private TableStatus status;
         private String locationSection;
+        private String assignedWaiter;
     }
 }
