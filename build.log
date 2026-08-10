@@ -9,16 +9,16 @@
 [INFO] 
 [INFO] --- resources:3.3.1:resources (default-resources) @ backend ---
 [INFO] Copying 4 resources from src/main/resources to target/classes
-[INFO] Copying 9 resources from src/main/resources to target/classes
+[INFO] Copying 10 resources from src/main/resources to target/classes
 [INFO] 
 [INFO] --- compiler:3.13.0:compile (default-compile) @ backend ---
 [INFO] Recompiling the module because of changed source code.
 [INFO] Compiling 131 source files with javac [debug parameters release 21] to target/classes
-[WARNING] /home/runner/work/restaurant-erp-backend/restaurant-erp-backend/src/main/java/com/restaurant/backend/entity/Reservation.java:[36,20] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
 [WARNING] /home/runner/work/restaurant-erp-backend/restaurant-erp-backend/src/main/java/com/restaurant/backend/entity/Payroll.java:[39,24] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
 [WARNING] /home/runner/work/restaurant-erp-backend/restaurant-erp-backend/src/main/java/com/restaurant/backend/entity/Payroll.java:[42,24] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
 [WARNING] /home/runner/work/restaurant-erp-backend/restaurant-erp-backend/src/main/java/com/restaurant/backend/entity/Payroll.java:[45,24] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
 [WARNING] /home/runner/work/restaurant-erp-backend/restaurant-erp-backend/src/main/java/com/restaurant/backend/entity/Payroll.java:[52,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /home/runner/work/restaurant-erp-backend/restaurant-erp-backend/src/main/java/com/restaurant/backend/entity/Reservation.java:[36,20] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
 [INFO] 
 [INFO] --- resources:3.3.1:testResources (default-testResources) @ backend ---
 [INFO] skip non existing resourceDirectory /home/runner/work/restaurant-erp-backend/restaurant-erp-backend/src/test/resources
@@ -39,6 +39,6 @@
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  6.335 s
-[INFO] Finished at: 2026-08-10T10:00:27Z
+[INFO] Total time:  8.977 s
+[INFO] Finished at: 2026-08-10T10:16:20Z
 [INFO] ------------------------------------------------------------------------
