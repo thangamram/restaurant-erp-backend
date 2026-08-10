@@ -4,6 +4,11 @@ import com.restaurant.backend.dto.response.UserDto;
 import com.restaurant.backend.entity.User;
 import com.restaurant.backend.exception.ResourceNotFoundException;
 import com.restaurant.backend.repository.UserRepository;
+import com.restaurant.backend.repository.RoleRepository;
+import com.restaurant.backend.repository.EmployeeRepository;
+import com.restaurant.backend.entity.Employee;
+import com.restaurant.backend.entity.Role;
+import com.restaurant.backend.enums.RoleName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +23,8 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final com.restaurant.backend.repository.RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Transactional(readOnly = true)
     public UserDto getUserById(Long id) {
@@ -56,12 +62,49 @@ public class UserService {
         }
 
         if (request.getRole() != null && !request.getRole().isEmpty()) {
-            com.restaurant.backend.enums.RoleName roleName = com.restaurant.backend.enums.RoleName.valueOf(request.getRole());
-            com.restaurant.backend.entity.Role role = roleRepository.findByName(roleName)
+            RoleName roleName = RoleName.valueOf(request.getRole());
+            Role role = roleRepository.findByName(roleName)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            java.util.Set<com.restaurant.backend.entity.Role> newRoles = new java.util.HashSet<>();
+            java.util.Set<Role> newRoles = new java.util.HashSet<>();
             newRoles.add(role);
             user.setRoles(newRoles);
+
+            Employee employee = employeeRepository.findByUserId(user.getId()).orElseGet(() -> {
+                Employee newEmp = Employee.builder()
+                        .user(user)
+                        .employeeCode(user.getUsername())
+                        .department("Operations")
+                        .designation(roleName.name())
+                        .baseSalary(java.math.BigDecimal.ZERO)
+                        .joiningDate(java.time.LocalDate.now())
+                        .status(com.restaurant.backend.enums.EmployeeStatus.ACTIVE)
+                        .build();
+                return newEmp;
+            });
+            
+            employee.setDesignation(roleName.name());
+            if (request.getBaseSalary() != null) {
+                employee.setBaseSalary(java.math.BigDecimal.valueOf(request.getBaseSalary()));
+            }
+            employeeRepository.save(employee);
+        } else {
+            Employee employee = employeeRepository.findByUserId(user.getId()).orElseGet(() -> {
+                Employee newEmp = Employee.builder()
+                        .user(user)
+                        .employeeCode(user.getUsername())
+                        .department("Operations")
+                        .designation("ROLE_WAITER")
+                        .baseSalary(java.math.BigDecimal.ZERO)
+                        .joiningDate(java.time.LocalDate.now())
+                        .status(com.restaurant.backend.enums.EmployeeStatus.ACTIVE)
+                        .build();
+                return newEmp;
+            });
+            
+            if (request.getBaseSalary() != null) {
+                employee.setBaseSalary(java.math.BigDecimal.valueOf(request.getBaseSalary()));
+                employeeRepository.save(employee);
+            }
         }
 
         return mapToDto(userRepository.save(user));
@@ -84,7 +127,7 @@ public class UserService {
                 .map(r -> r.getName().name())
                 .collect(Collectors.toSet());
 
-        return UserDto.builder()
+        UserDto dto = UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
@@ -95,5 +138,14 @@ public class UserService {
                 .roles(roles)
                 .createdAt(user.getCreatedAt())
                 .build();
+
+        employeeRepository.findByUserId(user.getId()).ifPresent(employee -> {
+            if (employee.getBaseSalary() != null) {
+                dto.setBaseSalary(employee.getBaseSalary().doubleValue());
+            }
+            // employmentType is not in the DB, so we can ignore it or leave it null.
+        });
+
+        return dto;
     }
 }
