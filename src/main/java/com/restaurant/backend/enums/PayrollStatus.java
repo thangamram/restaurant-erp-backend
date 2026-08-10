@@ -1,6 +1,8 @@
 package com.restaurant.backend.enums;
 
 public enum PayrollStatus {
-    PENDING,
+    DRAFT,
+    PENDING_APPROVAL,
+    APPROVED,
     PAID
 }

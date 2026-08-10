@@ -28,7 +28,7 @@ public class PayrollDto {
         private BigDecimal bonus = BigDecimal.ZERO;
         private BigDecimal deductions = BigDecimal.ZERO;
 
-        private PayrollStatus status = PayrollStatus.PENDING;
+        private PayrollStatus status = PayrollStatus.DRAFT;
     }
 
     @Data

@@ -49,7 +49,7 @@ public class Payroll {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private PayrollStatus status = PayrollStatus.PENDING;
+    private PayrollStatus status = PayrollStatus.DRAFT;
 
     @CreationTimestamp
     @Column(name = "generated_at", updatable = false)
