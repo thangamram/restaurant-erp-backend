@@ -59,7 +59,9 @@ public class UserService {
             com.restaurant.backend.enums.RoleName roleName = com.restaurant.backend.enums.RoleName.valueOf(request.getRole());
             com.restaurant.backend.entity.Role role = roleRepository.findByName(roleName)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            user.setRoles(java.util.Collections.singleton(role));
+            java.util.Set<com.restaurant.backend.entity.Role> newRoles = new java.util.HashSet<>();
+            newRoles.add(role);
+            user.setRoles(newRoles);
         }
 
         return mapToDto(userRepository.save(user));
