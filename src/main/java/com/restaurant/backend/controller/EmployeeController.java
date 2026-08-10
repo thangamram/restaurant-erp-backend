@@ -48,7 +48,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/active")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_CASHIER', 'ROLE_WAITER', 'ROLE_KITCHEN')")
     public ResponseEntity<ApiResponse<List<EmployeeDto.EmployeeResponse>>> getActiveEmployees() {
         return ResponseEntity.ok(ApiResponse.success("Active employees fetched successfully", employeeService.getActiveEmployees()));
     }
@@ -133,7 +133,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{employeeId}/attendance")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_CASHIER', 'ROLE_WAITER', 'ROLE_KITCHEN')")
     public ResponseEntity<ApiResponse<List<EmployeeDto.AttendanceResponse>>> getAttendanceByEmployee(@PathVariable Long employeeId) {
         return ResponseEntity.ok(ApiResponse.success("Attendance fetched successfully", employeeService.getAttendanceByEmployee(employeeId)));
     }
