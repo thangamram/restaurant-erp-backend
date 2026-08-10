@@ -54,8 +54,8 @@ public class BillService {
         Order order = orderRepository.findByIdWithItems(request.getOrderId())
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "id", request.getOrderId()));
 
-        if (order.getStatus() != OrderStatus.DELIVERED) {
-            throw new BadRequestException("Order must be in DELIVERED status before billing. Current: " + order.getStatus());
+        if (order.getStatus() != OrderStatus.DELIVERED && order.getStatus() != OrderStatus.SERVED) {
+            throw new BadRequestException("Order must be in SERVED or DELIVERED status before billing. Current: " + order.getStatus());
         }
 
         if (billRepository.findByOrderId(request.getOrderId()).isPresent()) {
