@@ -154,17 +154,16 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(request.getEmployeeId())
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", request.getEmployeeId()));
 
-        if (employeeAttendanceRepository.existsByEmployeeIdAndAttendanceDate(employee.getId(), request.getAttendanceDate())) {
-            throw new BadRequestException("Attendance already marked for employee " + employee.getEmployeeCode() + " on " + request.getAttendanceDate());
-        }
+        EmployeeAttendance attendance = employeeAttendanceRepository
+                .findByEmployeeIdAndAttendanceDate(employee.getId(), request.getAttendanceDate())
+                .orElse(EmployeeAttendance.builder()
+                        .employee(employee)
+                        .attendanceDate(request.getAttendanceDate())
+                        .build());
 
-        EmployeeAttendance attendance = EmployeeAttendance.builder()
-                .employee(employee)
-                .attendanceDate(request.getAttendanceDate())
-                .checkInTime(request.getCheckInTime())
-                .checkOutTime(request.getCheckOutTime())
-                .status(request.getStatus())
-                .build();
+        attendance.setCheckInTime(request.getCheckInTime());
+        attendance.setCheckOutTime(request.getCheckOutTime());
+        attendance.setStatus(request.getStatus());
 
         EmployeeAttendance saved = employeeAttendanceRepository.save(attendance);
         auditService.logAction(performedBy, "ADMIN", "ATTENDANCE_MARKED", "EMPLOYEE",
