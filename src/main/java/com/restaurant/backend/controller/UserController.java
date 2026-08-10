@@ -33,4 +33,17 @@ public class UserController {
     public ResponseEntity<ApiResponse<UserDto>> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.success(userService.getUserById(id), "User fetched successfully"));
     }
+
+    @org.springframework.web.bind.annotation.PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<UserDto>> updateUser(@PathVariable Long id, @jakarta.validation.Valid @org.springframework.web.bind.annotation.RequestBody com.restaurant.backend.dto.request.UserUpdateRequest request) {
+        return ResponseEntity.ok(ApiResponse.success(userService.updateUser(id, request), "User updated successfully"));
+    }
+
+    @org.springframework.web.bind.annotation.DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok(ApiResponse.success("User deleted successfully"));
+    }
 }
