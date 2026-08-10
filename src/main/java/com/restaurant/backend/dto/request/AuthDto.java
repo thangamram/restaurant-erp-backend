@@ -39,6 +39,9 @@ public class AuthDto {
         private String fullName;
 
         private String role; // Optional: e.g. "ROLE_CUSTOMER"
+        
+        private Double baseSalary;
+        private String employmentType;
     }
 
     @Data

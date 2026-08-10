@@ -15,6 +15,8 @@ import com.restaurant.backend.repository.LoginHistoryRepository;
 import com.restaurant.backend.repository.RefreshTokenRepository;
 import com.restaurant.backend.repository.RoleRepository;
 import com.restaurant.backend.repository.UserRepository;
+import com.restaurant.backend.repository.EmployeeRepository;
+import com.restaurant.backend.entity.Employee;
 import com.restaurant.backend.security.JwtTokenProvider;
 import com.restaurant.backend.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +51,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
     private final AuditService auditService;
+    private final EmployeeRepository employeeRepository;
 
     @Value("${app.jwt.refresh-token-expiration-ms}")
     private long refreshTokenDurationMs;
@@ -98,6 +101,17 @@ public class AuthService {
         user.getRoles().add(userRole);
 
         User savedUser = userRepository.save(user);
+
+        Employee employee = Employee.builder()
+                .user(savedUser)
+                .employeeCode(savedUser.getUsername())
+                .department("Operations")
+                .designation(finalRoleName.name())
+                .baseSalary(request.getBaseSalary() != null ? java.math.BigDecimal.valueOf(request.getBaseSalary()) : java.math.BigDecimal.ZERO)
+                .joiningDate(java.time.LocalDate.now())
+                .status(com.restaurant.backend.enums.EmployeeStatus.ACTIVE)
+                .build();
+        employeeRepository.save(employee);
 
         auditService.logAction(savedUser.getUsername(), roleName.name(), "USER_REGISTER", "AUTH",
                 "User registered with email: " + savedUser.getEmail(), ipAddress);

@@ -14,4 +14,7 @@ public class UserUpdateRequest {
     private String role;
     
     private Boolean enabled;
+
+    private Double baseSalary;
+    private String employmentType;
 }

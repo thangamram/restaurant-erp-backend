@@ -22,4 +22,7 @@ public class UserDto {
     private boolean enabled;
     private Set<String> roles;
     private LocalDateTime createdAt;
+    
+    private Double baseSalary;
+    private String employmentType;
 }
